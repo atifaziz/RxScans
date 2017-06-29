@@ -81,10 +81,10 @@ namespace RxScans
             where T : IComparable<T> =>
             source.Scan((s, e) => Math.Sign(e.CompareTo(s)) == (int) comparison ? e : s);
 
-        public static IObservable<IImmutableSet<T>> ScanDistinct<T>(this IObservable<T> source) =>
-            ScanDistinct(source, null);
+        public static IObservable<ISet<T>> ScanDistinct<T>(this IObservable<T> source) =>
+            source.ScanDistinct(null);
 
-        public static IObservable<IImmutableSet<T>> ScanDistinct<T>(this IObservable<T> source, IEqualityComparer<T> comparer) =>
+        public static IObservable<ISet<T>> ScanDistinct<T>(this IObservable<T> source, IEqualityComparer<T> comparer) =>
             source.Scan(ImmutableHashSet<T>.Empty, (s, e) => s.Add(e));
     }
 }
