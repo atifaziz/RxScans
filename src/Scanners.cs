@@ -58,6 +58,42 @@ namespace RxScans
             this IObservable<T> source, Func<T, bool> predicate) =>
             source.Scan(0, (s, e) => s + (predicate(e) ? 1 : 0));
 
+        public static IObservable<double> ScanAverage(this IObservable<int> source) =>
+            source.ScanAverage(x => x);
+
+        public static IObservable<double> ScanAverage<T>(
+            this IObservable<T> source, Func<T, int> selector) =>
+            source.ScanAverage(selector, (sum, x) => sum + x);
+
+        public static IObservable<double> ScanAverage(this IObservable<long> source) =>
+            source.ScanAverage(x => x);
+
+        public static IObservable<double> ScanAverage<T>(
+            this IObservable<T> source, Func<T, long> selector) =>
+            source.ScanAverage(selector, (sum, x) => sum + x);
+
+        public static IObservable<double> ScanAverage(this IObservable<float> source) =>
+            source.ScanAverage(x => x);
+
+        public static IObservable<double> ScanAverage<T>(
+            this IObservable<T> source, Func<T, float> selector) =>
+            source.ScanAverage(selector, (sum, x) => sum + x);
+
+        public static IObservable<double> ScanAverage(this IObservable<double> source) =>
+            source.ScanAverage(x => x);
+
+        public static IObservable<double> ScanAverage<T>(
+            this IObservable<T> source, Func<T, double> selector) =>
+            source.ScanAverage(selector, (sum, x) => sum + x);
+
+        static IObservable<double> ScanAverage<TSource, TElement>(
+            this IObservable<TSource> source,
+            Func<TSource, TElement> selector,
+            Func<double, TElement, double> adder) =>
+            source.Select(selector)
+                  .Scan((Count: 0, Sum: 0.0), (s, x) => (s.Count + 1, adder(s.Sum, x)))
+                  .Select(e => e.Sum / e.Count);
+
         public static IObservable<T> ScanMin<T>(this IObservable<T> source)
             where T : IComparable<T> =>
             source.ScanMin(x => x);

@@ -115,5 +115,45 @@ namespace RxScans.Tests
             foreach (var e in results)
                 Assert.Equal(e.Scan.OrderBy(x => x), e.Expecation.OrderBy(x => x));
         }
+
+        [Theory]
+        [InlineData(
+            new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+            new[] { 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5 })]
+        public void ScanAverageInts(int[] xs, double[] expectations)
+        {
+            var scan = xs.ToObservable().ScanAverage().ToEnumerable();
+            Assert.Equal(expectations, scan);
+        }
+
+        [Theory]
+        [InlineData(
+            new[] { 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L },
+            new[] { 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5 })]
+        public void ScanAverageLongs(long[] xs, double[] expectations)
+        {
+            var scan = xs.ToObservable().ScanAverage().ToEnumerable();
+            Assert.Equal(expectations, scan);
+        }
+
+        [Theory]
+        [InlineData(
+            new[] { 0.5f, 1f, 1.5f, 2f, 2.5f, 3f, 3.5f, 4f, 4.5f, 5f },
+            new[] { 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75 })]
+        public void ScanAverageSingles(float[] xs, double[] expectations)
+        {
+            var scan = xs.ToObservable().ScanAverage().ToEnumerable();
+            Assert.Equal(expectations, scan);
+        }
+
+        [Theory]
+        [InlineData(
+            new[] { 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5 },
+            new[] { 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75 })]
+        public void ScanAverageDoubles(double[] xs, double[] expectations)
+        {
+            var scan = xs.ToObservable().ScanAverage().ToEnumerable();
+            Assert.Equal(expectations, scan);
+        }
     }
 }
