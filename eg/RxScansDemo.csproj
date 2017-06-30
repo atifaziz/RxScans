@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\src\RxScans.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="morelinq" Version="2.5.0" />
+    <PackageReference Include="System.Reactive" Version="3.0" />
+  </ItemGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+  </PropertyGroup>
+</Project>
